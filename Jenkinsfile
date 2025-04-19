@@ -4,12 +4,12 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/2200030884/SpringMVCwithCI-CD.git' // Replace with your GitHub repo URL
+                git 'https://github.com/2200030884/SpringMVCwithCI-CD.git'
             }
         }
         stage('Build') {
             steps {
-                sh './mvnw clean package' // Build your project using Maven wrapper
+                sh './mvnw clean package -DskipTests' // Build your project using Maven wrapper
             }
         }
         stage('Docker Build & Run') {
@@ -18,6 +18,19 @@ pipeline {
                 sh 'docker-compose build' // Build Docker images
                 sh 'docker-compose up -d' // Run containers in detached mode
             }
+        }
+    }
+
+    post{
+        success{
+            echo "Pipiline Completed Successfully!....."
+        }
+        failure{
+            echo "Pipeline Failed check project !..."
+        }
+
+        always{
+            cleanWs()
         }
     }
 }

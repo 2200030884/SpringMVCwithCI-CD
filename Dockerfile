@@ -1,7 +1,12 @@
-FROM openjdk:17
+FROM openjdk:21
 
 # Copy the packaged Spring Boot application (JAR or WAR)
-COPY target/SpringBootMVCSDPProject-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+
+WORKDIR /app
+
+COPY target/*.war app.war
+
+EXPOSE 8081
 
 # Command to run the app when the container starts
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.war"]
